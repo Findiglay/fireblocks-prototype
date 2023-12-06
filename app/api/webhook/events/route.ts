@@ -15,14 +15,13 @@ type TransactionWebhook = {
 
 export async function POST(request: Request) {
   const json: TransactionWebhook = await request.json();
+  const transaction = json.data;
 
   console.log(JSON.stringify(json, null, 2));
 
-  if (json.type === "TRANSACTION_STATUS_UPDATED") {
-    const transaction = json.data;
-
+  if (transaction.destinationAddressDescription?.includes("CustomerID")) {
     if (
-      transaction.destinationAddressDescription?.includes("CustomerID") &&
+      json.type === "TRANSACTION_STATUS_UPDATED" &&
       transaction.status === "COMPLETED"
     ) {
       const amount = transaction.amount;
@@ -38,6 +37,17 @@ export async function POST(request: Request) {
         },
       });
     }
+
+    await prisma.transaction.create({
+      data: {
+        eventData: JSON.stringify(transaction),
+        user: {
+          connect: {
+            username: transaction.destinationAddressDescription.split("_")[1],
+          },
+        },
+      },
+    });
   }
 
   return Response.json({ success: true });
