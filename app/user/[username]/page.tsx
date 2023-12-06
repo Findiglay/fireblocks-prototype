@@ -9,25 +9,11 @@ async function getData(username: string) {
     },
     include: {
       Assets: true,
+      Transactions: true,
     },
   });
 
-  const address = user?.Assets[0]?.address;
-
-  if (address) {
-    console.log("SEARCHING sourceWalletId: ", address);
-    const transactions = await fireblocks.getTransactions({
-      // @ts-ignore
-      destWalletId: address,
-    });
-
-    return {
-      user,
-      transactions,
-    };
-  } else {
-    return { user, transactions: null };
-  }
+  return { user };
 }
 
 export default async function User({
@@ -37,18 +23,25 @@ export default async function User({
     username: string;
   };
 }) {
-  const { user, transactions } = await getData(params.username);
+  const { user } = await getData(params.username);
+
+  console.log("user: ", user);
 
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-3xl font-bold underline my-4">{user?.username}</h1>
-      {transactions?.map((tx) => (
-        <div key={tx.id}>
-          <p>Created: {tx.createdAt}</p>
-          <p>Amount: {tx.amount}</p>
-          <p>Source Wallet: {tx.sourceAddress}</p>
-        </div>
-      ))}
+      {user?.Transactions?.map((tx) => {
+        const event = JSON.parse((tx.eventData ?? "{}") as string) as any;
+
+        return (
+          <div key={tx.id}>
+            <p>Created: {event?.createdAt}</p>
+            <p>Amount: {event?.amount}</p>
+            <p>Status: {event?.status}</p>
+            <p>Tx Hash: {event?.txHash}</p>
+          </div>
+        );
+      })}
     </div>
   );
 }
