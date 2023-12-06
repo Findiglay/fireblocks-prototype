@@ -38,14 +38,21 @@ export async function POST(request: Request) {
       });
     }
 
-    await prisma.transaction.create({
-      data: {
+    await prisma.transaction.upsert({
+      where: {
+        id: transaction.id,
+      },
+      create: {
+        id: transaction.id,
         eventData: JSON.stringify(transaction),
         user: {
           connect: {
             username: transaction.destinationAddressDescription.split("_")[1],
           },
         },
+      },
+      update: {
+        eventData: JSON.stringify(transaction),
       },
     });
   }
