@@ -1,6 +1,4 @@
 import prisma from "lib/prisma";
-import fireblocks from "lib/fireblocks";
-import { CreateUserForm } from "components/form";
 
 async function getData(username: string) {
   const user = await prisma.user.findUnique({
