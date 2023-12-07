@@ -2,6 +2,8 @@ import Link from "next/link";
 import prisma from "lib/prisma";
 import { CreateUserForm } from "components/form";
 
+export const dynamic = "force-dynamic";
+
 async function getData() {
   const users = await prisma.user.findMany({
     include: {
