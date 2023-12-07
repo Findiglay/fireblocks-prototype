@@ -9,6 +9,10 @@ async function getData(username: string) {
       Assets: true,
       Transactions: true,
     },
+    cacheStrategy: {
+      ttl: 30,
+      swr: 60,
+    },
   });
 
   return { user };
