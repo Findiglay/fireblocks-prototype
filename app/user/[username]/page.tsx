@@ -35,7 +35,7 @@ export default async function User({
 
         return (
           <div key={tx.id} className="my-2">
-            <p>Created: {event?.createdAt}</p>
+            <p>Created: {new Date(event?.createdAt).toISOString()}</p>
             <p>Amount: {event?.amount}</p>
             <p>Status: {event?.status}</p>
             <p>Tx Hash: {event?.txHash}</p>
