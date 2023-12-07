@@ -1,3 +1,4 @@
+import Link from "next/link";
 import prisma from "lib/prisma";
 import { CreateUserForm } from "components/form";
 
@@ -19,7 +20,12 @@ export default async function Home() {
       <h1 className="text-3xl font-bold underline my-4">Users</h1>
       <ul role="list" className="divide-y divide-gray-100">
         {users.map((user) => (
-          <li key={user.username} className="flex justify-between gap-x-6 py-5">
+          <Link
+            key={user.username}
+            as="li"
+            href={`/user/${user.username}`}
+            className="flex justify-between gap-x-6 py-5"
+          >
             <div className="flex min-w-0 gap-x-4">
               <div className="min-w-0 flex-auto">
                 <p className="text-sm font-semibold leading-6 text-gray-900">
@@ -43,7 +49,7 @@ export default async function Home() {
                 </p>
               </div>
             </div>
-          </li>
+          </Link>
         ))}
       </ul>
 

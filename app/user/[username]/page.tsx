@@ -25,8 +25,6 @@ export default async function User({
 }) {
   const { user } = await getData(params.username);
 
-  console.log("user: ", user);
-
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-3xl font-bold underline my-4">{user?.username}</h1>
