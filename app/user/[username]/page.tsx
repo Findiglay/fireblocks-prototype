@@ -30,6 +30,7 @@ export default async function User({
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-3xl font-bold underline my-4">{user?.username}</h1>
+      <h2>Address: {user?.Assets[0]?.address}</h2>
       {user?.Transactions?.map((tx) => {
         const event = JSON.parse((tx.eventData ?? "{}") as string) as any;
 
