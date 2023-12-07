@@ -7,10 +7,6 @@ async function getData() {
     include: {
       Assets: true,
     },
-    cacheStrategy: {
-      ttl: 30,
-      swr: 60,
-    },
   });
 
   return users;

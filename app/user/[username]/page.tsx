@@ -9,10 +9,6 @@ async function getData(username: string) {
       Assets: true,
       Transactions: true,
     },
-    cacheStrategy: {
-      ttl: 30,
-      swr: 60,
-    },
   });
 
   return { user };
@@ -39,6 +35,7 @@ export default async function User({
 
         return (
           <div key={tx.id} className="my-2">
+            <p>Id: {tx.id}</p>
             <p>Created: {new Date(event?.createdAt).toISOString()}</p>
             <p>Amount: {event?.amount}</p>
             <p>Status: {event?.status}</p>
