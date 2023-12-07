@@ -4,7 +4,7 @@ import { useFormState } from "react-dom";
 import { SubmitButton } from "./submit";
 import { createUser } from "../../actions";
 
-export async function CreateUserForm() {
+export function CreateUserForm() {
   const [message, formAction] = useFormState(createUser, null);
 
   return (
